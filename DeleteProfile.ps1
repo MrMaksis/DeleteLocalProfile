@@ -28,16 +28,6 @@ foreach ($name in $selectedAccounts) {
             $sid = $accountToDelete.SID
             
             try {
-                # Delete the user's profile from the registry
-                $profilePath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\$sid"
-                if (Test-Path $profilePath) {
-                    Remove-Item -Path $profilePath -Recurse -Force
-                    Write-Host "The profile for account '$name' has been removed from the registry." -ForegroundColor Yellow
-                }
-                else {
-                    Write-Host "The profile for account '$name' was not found in the registry." -ForegroundColor Red
-                }
-                
                 # Delete the user's folder
                 $userFolderPath = "C:\Users\$name"
                 if (Test-Path $userFolderPath) {
@@ -47,6 +37,16 @@ foreach ($name in $selectedAccounts) {
                 else {
                     Write-Host "The user folder for '$name' was not found." -ForegroundColor Red
                 }
+
+                # Delete the user's profile from the registry
+                $profilePath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\ProfileList\$sid"
+                if (Test-Path $profilePath) {
+                    Remove-Item -Path $profilePath -Recurse -Force
+                    Write-Host "The profile for account '$name' has been removed from the registry." -ForegroundColor Yellow
+                }
+                else {
+                    Write-Host "The profile for account '$name' was not found in the registry." -ForegroundColor Red
+                }              
                 
                 # Delete the actual user account
                 Remove-LocalUser -Name $name

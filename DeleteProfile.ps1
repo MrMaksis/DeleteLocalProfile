@@ -47,10 +47,6 @@ foreach ($name in $selectedAccounts) {
                 else {
                     Write-Host "The profile for account '$name' was not found in the registry." -ForegroundColor Red
                 }              
-                
-                # Delete the actual user account
-                Remove-LocalUser -Name $name
-                Write-Host "The account '$name' has been deleted." -ForegroundColor Yellow
             }
             catch {
                 Write-Warning "An error occurred while deleting account '$name': $_"
